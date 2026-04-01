@@ -105,7 +105,7 @@ create_batch <- function(batch_name, example_batch_value) {
     # Add to navbar
     if (is.null(yaml_content$website$navbar$left)) {
       yaml_content$website$navbar$left <- list(
-        list(href = paste0(batch_name, "/listing.qmd"), text = batch_name)
+        paste0(batch_name, "/listing.qmd")
       )
     } else {
       # Find the GitHub link and insert before it
@@ -120,7 +120,7 @@ create_batch <- function(batch_name, example_batch_value) {
         }
       }))
       
-      new_nav_item <- list(href = paste0(batch_name, "/listing.qmd"), text = batch_name)
+      new_nav_item <- paste0(batch_name, "/listing.qmd")
       
       if (length(github_index) > 0) {
         # Insert before GitHub link
