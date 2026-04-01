@@ -3,7 +3,7 @@ title: "Example Reports"
 description: "Reports for each example value."
 code-fold: true
 listing:
-  contents: example_reports
+  contents: batched_reports
   type: grid
 ---
 

@@ -2,7 +2,8 @@
 title: "example_1 Report"
 format: html
 params:
-  batch_value: "example_1"  # must be "example_1" before `quarto publish`
+  batch_value: "example_1"  # must match value in generate_batch_qmds.R
+  batch_name: "example_batch"
 ---
 
 <!-- 
@@ -12,8 +13,8 @@ each batch_value.
 
 ```{R, get data for params$batch_value}
 #| code-summary: get data for params$batch_value
-source(here::here("R/getExampleData.R"))
+source(here::here(glue::glue("{params$batch_name}/getData.R")))
 
-df <- getExampleData(params$batch_value)
+df <- getData(params$batch_value)
 head(df)
 ```

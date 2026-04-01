@@ -1,4 +1,4 @@
-getListOfExamples <- function() {
+getListOfValues <- function() {
   examples <- c(
     "example_1",
     "example_2", 

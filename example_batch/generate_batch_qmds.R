@@ -9,15 +9,16 @@
 # === setup
 # =====================================================================
 # creates a report template .qmd for each
-BATCH_NAME <- "example_reports"
-EXAMPLE_BATCH_VALUE <- "example_1"
+BATCH_NAME <- "example_batch"  # must match folder name
+EXAMPLE_BATCH_VALUE <- "example_1"  # must match value in template.qmd
 # =====================================================================
 TEMPLATE_REPLACEMENTS <- list(
   # raw string = replacement string
-  EXAMPLE_BATCH_VALUE = "{{batch_value}}"
+  EXAMPLE_BATCH_VALUE = "{{batch_value}}",
+  "BATCH_NAME" = BATCH_NAME
 )
-REPORT_TEMPLATE <- here::here(glue::glue("{BATCH_NAME}/{BATCH_NAME}_template.qmd"))
-REPORTS_DIR <- here::here(glue::glue("{BATCH_NAME}/{BATCH_NAME}"))
+REPORT_TEMPLATE <- here::here(glue::glue("{BATCH_NAME}/template.qmd"))
+REPORTS_DIR <- here::here(glue::glue("{BATCH_NAME}/batched_reports"))
 # # Proceed if rendering the whole project, exit otherwise
 # if (!nzchar(Sys.getenv("QUARTO_PROJECT_RENDER_ALL"))) {
 #   quit()
@@ -84,8 +85,8 @@ dir.create(REPORTS_DIR, showWarnings=FALSE)
 # === iterate through the data structure
 # =====================================================================
 # get list of analytes
-source(here("R/getListOfExamples.R"))
+source(here(glue("{BATCH_NAME}/getListOfValues.R")))
 
-for (batch_value in getListOfExamples()) {
+for (batch_value in getListOfValues()) {
   create_template(batch_value)
 }

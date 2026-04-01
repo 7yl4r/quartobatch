@@ -2,17 +2,27 @@
 Batch generate quarto reports from a common template across a dataset.
 
 
-## parts of each batch variable
-1. `/{batch_name}_reports/` directory
-2. `/{batch_name}_reports/{batch_name}_reports.qmd`
-3. `/{batch_name}_reports/{batch_name}_reports_template.qmd`
-4. `/R/pre_render/generate_{batch_name}_reports.R`
-5. `/R/get{batch_name}Data.R` 
-6. `/R/getListOf{batch_name}s.R`
-7. `.gitignore` entry for `{batch_name}/{batch_name}` folder
+# structure of each batch
+1. `/{batch_name}/` directory
+2. `/{batch_name}/listing.qmd`
+3. `/{batch_name}/template.qmd`
+4. `/{batch_name}/generate_batch_qmds.R`
+5. `/{batch_name}/getData.R` 
+6. `/{batch_name}/getListOfValues.R`
 
+# usage
+1. copy example_batch folder
+2. rename folder to your batch_name
+3. modify getData & getListOfValues to work with your data
+4. modify generate_batch_qmds.R
+  1. modify BATCH_NAME to match your batch_name
+  2. modify EXAMPLE_BATCH_VALUE to match an example value from your data
+5. modify template.qmd params
+  1. use an example value for batch_value
+  2. modify batch_name to match your batch_name
+7. modify _quarto.yml
+  1. add `{batch_name}/generate_batch_qmds` to pre-render
+  1. add `{batch_name}/batched_reports/*.qmd` to render
+  1. add `{batch_name}/listing.qmd` to render
+  1. add `{batch_name}/listing.qmd` to navbar
 
-### Usage
-1. copy 1, 2, 3, 4 using example_reports as a template
-2. create 5, 6
-3. add line to .gitignore for 7
