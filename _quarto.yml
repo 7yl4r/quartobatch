@@ -3,9 +3,9 @@ project:
   pre-render: 
     - example_batch/generate_batch_qmds.R  # generate the templated reports
   render:
-    - index.qmd
-    - example_batch/batched_reports/*.qmd  # render templated reports
-    - example_batch/listing.qmd  # render the listing of reports
+  - index.qmd
+  - example_batch/batched_reports/*.qmd  # render templated reports
+  - example_batch/listing.qmd  # render the listing of reports
     
 website:
   title: "QuartoBatch Example"
