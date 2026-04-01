@@ -1,0 +1,14 @@
+---
+title: "example_1 Report"
+format: html
+params:
+  batch_value: "example_1"  # must be "example_1" before `quarto publish`
+---
+
+```{R, get data for params$batch_value}
+#| code-summary: get data for params$batch_value
+source(here::here("R/getData.R"))
+
+df <- getData(params$batch_value)
+head(df)
+```

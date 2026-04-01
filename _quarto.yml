@@ -1,0 +1,28 @@
+project:
+  type: website
+  pre-render: 
+    - R/pre_render/generate_example_reports.R  # generate the templated reports
+  render:
+    - index.qmd
+    - example_reports/example_reports/*.qmd  # render templated reports
+    - example_reports/example_reports.qmd  # render the listing of reports
+    
+website:
+  title: "QuartoBatch Example"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - example_reports/example_reports.qmd
+      - href: https://github.com/7yl4r/quartobatch
+        text: Source Code on GitHub
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-fold: true
+    message: false
+    warning: false
+
+
