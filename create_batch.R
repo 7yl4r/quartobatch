@@ -37,8 +37,8 @@ create_batch <- function(batch_name, example_batch_value) {
                     content)
     
     # Replace EXAMPLE_BATCH_VALUE
-    content <- gsub('EXAMPLE_BATCH_VALUE <- "example_1"', 
-                    paste0('EXAMPLE_BATCH_VALUE <- "', example_batch_value, '"'), 
+    content <- gsub('"example_1"', 
+                    paste0('"', example_batch_value, '"'), 
                     content)
     
     writeLines(content, generate_file)
