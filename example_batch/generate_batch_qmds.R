@@ -2,7 +2,7 @@
 # the getListOfExamples function using the template 
 # `{batch_name}/{batch_name}_report_template.qmd`.
 #
-# The BATCH_NAME and EXAMPLE_BATCH_VALUE need to be modified.
+# The BATCH_NAME and example_1 need to be modified.
 # The getListOfExamples function at the bottom should be modified.
 
 # =====================================================================
@@ -10,11 +10,10 @@
 # =====================================================================
 # creates a report template .qmd for each
 BATCH_NAME <- "example_batch"  # must match folder name
-EXAMPLE_BATCH_VALUE <- "example_1"  # must match value in template.qmd
 # =====================================================================
 TEMPLATE_REPLACEMENTS <- list(
   # raw string = replacement string
-  EXAMPLE_BATCH_VALUE = "{{batch_value}}",
+  "example_1" = "{{batch_value}}", # must match value in template.qmd
   "BATCH_NAME" = BATCH_NAME
 )
 REPORT_TEMPLATE <- here::here(glue::glue("{BATCH_NAME}/template.qmd"))
