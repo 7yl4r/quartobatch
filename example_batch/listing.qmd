@@ -1,6 +1,6 @@
 ---
 title: "Example Reports"
-description: "Reports for each example value."
+description: "Reports for each value in the batch."
 code-fold: true
 listing:
   contents: batched_reports

@@ -73,36 +73,77 @@ create_batch <- function(batch_name, example_batch_value) {
     content <- readLines(quarto_file)
     
     # Find the pre-render section and add generate_batch_qmds.R
-    pre_render_line <- grep("pre-render:", content)
-    if (length(pre_render_line) > 0) {
-      # Add the new pre-render entry after the existing ones
-      insert_line <- pre_render_line + 1
-      while (insert_line <= length(content) && grepl("^  ", content[insert_line])) {
-        insert_line <- insert_line + 1
+    pre_render_line <- grep("  pre-render:", content)
+    if (length(pre_render_line) > 0) {  # if section found
+      # Find the last line that starts with "  -" after pre-render:
+      pre_render_items <- grep("^  -", content[pre_render_line:length(content)])
+      if (length(pre_render_items) > 0) {
+        last_item_line <- pre_render_line + pre_render_items[length(pre_render_items)] - 1
+        pre_render_entry <- paste0("    - ", batch_name, "/generate_batch_qmds.R")
+        content <- append(content, pre_render_entry, after = last_item_line)
+      } else {
+        # No existing items, add right after pre-render: line
+        pre_render_entry <- paste0("    - ", batch_name, "/generate_batch_qmds.R")
+        content <- append(content, pre_render_entry, after = pre_render_line)
       }
-      
-      pre_render_entry <- paste0("  - ", batch_name, "/generate_batch_qmds.R")
-      content <- append(content, pre_render_entry, after = insert_line - 1)
+    } else {
+      # print error
+      print("ERROR: Could not find pre-render section in _quarto.yml")
     }
     
     # Find the render section and add batched_reports and listing
-    render_line <- grep("render:", content)
-    if (length(render_line) > 0) {
-      # Add the new render entries after the existing ones
-      insert_line <- render_line + 1
-      while (insert_line <= length(content) && grepl("^  ", content[insert_line])) {
-        insert_line <- insert_line + 1
+    render_line <- grep("  render:", content)
+    if (length(render_line) > 0) {  # if section found
+      # Find the last line that starts with "  -" after render:
+      render_items <- grep("^  -", content[render_line:length(content)])
+      if (length(render_items) > 0) {
+        last_item_line <- render_line + render_items[length(render_items)] - 1
+        render_entries <- c(
+          paste0("  - ", batch_name, "/batched_reports/*.qmd"),
+          paste0("  - ", batch_name, "/listing.qmd")
+        )
+        content <- append(content, render_entries, after = last_item_line)
+      } else {
+        # No existing items, add right after render: line
+        render_entries <- c(
+          paste0("  - ", batch_name, "/batched_reports/*.qmd"),
+          paste0("  - ", batch_name, "/listing.qmd")
+        )
+        content <- append(content, render_entries, after = render_line)
       }
-      
-      render_entries <- c(
-        paste0("  - ", batch_name, "/batched_reports/*.qmd"),
-        paste0("  - ", batch_name, "/listing.qmd")
-      )
-      
-      content <- append(content, render_entries, after = insert_line - 1)
+    } else {
+      # print error
+      print("ERROR: Could not find render section in _quarto.yml")
+    }
+
+    # Find the navbar section and add the listing
+    navbar_line <- grep("  navbar:", content)
+    if (length(navbar_line) > 0) {  # if section found
+      # Find the last line that starts with "    -" after navbar:
+      navbar_items <- grep("^    -", content[navbar_line:length(content)])
+      if (length(navbar_items) > 0) {
+        last_item_line <- navbar_line + navbar_items[length(navbar_items)] - 1
+        navbar_entry <- paste0("      - ", batch_name, "/listing.qmd")
+        content <- append(content, navbar_entry, after = last_item_line)
+      } else {
+        # No existing items, add right after navbar: line
+        navbar_entry <- paste0("      - ", batch_name, "/listing.qmd")
+        content <- append(content, navbar_entry, after = navbar_line)
+      }
+    } else {
+      # print error
+      print("ERROR: Could not find navbar section in _quarto.yml")
     }
     
     writeLines(content, quarto_file)
+  }
+
+  # 7. modify the listing to replace "Example Reports" with the batch name
+  listing_file <- file.path(batch_name, "listing.qmd")
+  if (file.exists(listing_file)) {
+    content <- readLines(listing_file)
+    content <- gsub("Example Reports", batch_name, content)
+    writeLines(content, listing_file)
   }
   
   print(paste("Successfully created batch:", batch_name))
