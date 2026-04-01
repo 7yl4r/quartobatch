@@ -1,6 +1,15 @@
 # =====================================================================
 # === setup
 # =====================================================================
+# creates a report template .qmd for each
+REPORT_NAME <- "example_reports"
+REPORT_TEMPLATE <- here(glue("{REPORT_NAME}/{REPORT_NAME}_template.qmd"))
+REPORTS_DIR <- here(glue("{REPORT_NAME}/{REPORT_NAME}"))
+TEMPLATE_REPLACEMENTS <- list(
+  # raw string = replacement string
+  "example_1" = "{{batch_value}}"
+)
+# =====================================================================
 # # Proceed if rendering the whole project, exit otherwise
 # if (!nzchar(Sys.getenv("QUARTO_PROJECT_RENDER_ALL"))) {
 #   quit()
@@ -14,17 +23,6 @@ librarian::shelf(
   here,
   whisker
 )
-# =====================================================================
-# === basic setup
-# =====================================================================
-# creates a report template .qmd for each
-REPORT_NAME <- "example_reports"
-REPORT_TEMPLATE <- here(glue("{REPORT_NAME}/{REPORT_NAME}_template.qmd"))
-REPORTS_DIR <- here(glue("{REPORT_NAME}/{REPORT_NAME}"))
-TEMPLATE_REPLACEMENTS <- list(
-  # raw string = replacement string
-  "example_1" = "{{batch_value}}"
-)
 
 # delete old reports
 if (dir.exists(REPORTS_DIR)) {
@@ -35,12 +33,12 @@ if (dir.exists(REPORTS_DIR)) {
 # Modify the analyte_reports.R script:
 
 # Add debug output to verify template path
-cat("Template path:", REPORT_TEMPLATE, "\n")
-cat("Template exists:", file.exists(REPORT_TEMPLATE), "\n")
+# cat("Template path:", REPORT_TEMPLATE, "\n")
+# cat("Template exists:", file.exists(REPORT_TEMPLATE), "\n")
 
 # Read the template and verify its content before and after gsub
 templ <- readLines(REPORT_TEMPLATE)
-cat("First few lines before gsub:\n", paste(head(templ), collapse="\n"), "\n")
+# cat("First few lines before gsub:\n", paste(head(templ), collapse="\n"), "\n")
 
 for (raw_string in names(TEMPLATE_REPLACEMENTS)){
   templ <- gsub(
@@ -58,13 +56,13 @@ create_template <- function(batch_value) {
   print(glue("=== creating template for '{batch_value}' ==="))
   
   # Debug: print parameters being used
-  cat("Template parameters:", names(params), "=", unlist(params), "\n")
+  # cat("Template parameters:", names(params), "=", unlist(params), "\n")
   
   # Render template and output to file
   rendered <- whisker.render(templ, params)
   
   # Debug: print first few lines of rendered output
-  cat("First few lines of rendered output:\n", paste(head(strsplit(rendered, "\n")[[1]]), collapse="\n"), "\n")
+  # cat("First few lines of rendered output:\n", paste(head(strsplit(rendered, "\n")[[1]]), collapse="\n"), "\n")
   
   writeLines(
     rendered,
