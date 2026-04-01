@@ -5,10 +5,15 @@ params:
   batch_value: "example_1"  # must be "example_1" before `quarto publish`
 ---
 
+<!-- 
+This is the template that will be generated for
+each batch_value.
+-->
+
 ```{R, get data for params$batch_value}
 #| code-summary: get data for params$batch_value
-source(here::here("R/getData.R"))
+source(here::here("R/getExampleData.R"))
 
-df <- getData(params$batch_value)
+df <- getExampleData(params$batch_value)
 head(df)
 ```

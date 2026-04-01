@@ -1,15 +1,23 @@
+# This file generates quarto documents for each each value returned by
+# the getListOfExamples function using the template 
+# `{batch_name}/{batch_name}_report_template.qmd`.
+#
+# The BATCH_NAME and EXAMPLE_BATCH_VALUE need to be modified.
+# The getListOfExamples function at the bottom should be modified.
+
 # =====================================================================
 # === setup
 # =====================================================================
 # creates a report template .qmd for each
-REPORT_NAME <- "example_reports"
-REPORT_TEMPLATE <- here(glue("{REPORT_NAME}/{REPORT_NAME}_template.qmd"))
-REPORTS_DIR <- here(glue("{REPORT_NAME}/{REPORT_NAME}"))
+BATCH_NAME <- "example_reports"
+EXAMPLE_BATCH_VALUE <- "example_1"
+# =====================================================================
 TEMPLATE_REPLACEMENTS <- list(
   # raw string = replacement string
-  "example_1" = "{{batch_value}}"
+  EXAMPLE_BATCH_VALUE = "{{batch_value}}"
 )
-# =====================================================================
+REPORT_TEMPLATE <- here::here(glue::glue("{BATCH_NAME}/{BATCH_NAME}_template.qmd"))
+REPORTS_DIR <- here::here(glue::glue("{BATCH_NAME}/{BATCH_NAME}"))
 # # Proceed if rendering the whole project, exit otherwise
 # if (!nzchar(Sys.getenv("QUARTO_PROJECT_RENDER_ALL"))) {
 #   quit()

@@ -1,4 +1,4 @@
-getData <- function(batch_value, n_rows = 10) {
+getExampleData <- function(batch_value, n_rows = 10) {
   print(paste('getting data for', batch_value))
   # seed based on batch_value so the data is reproducible
   set.seed(sum(as.integer(charToRaw(batch_value))))

@@ -1,3 +1,5 @@
+example_reports/example_reports
+
 .Rproj.user
 .Rhistory
 .RData
@@ -13,3 +15,4 @@ _site/*
 site_libs/*
 
 *.html
+**/*.quarto_ipynb
