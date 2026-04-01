@@ -108,12 +108,27 @@ create_batch <- function(batch_name, example_batch_value) {
         list(href = paste0(batch_name, "/listing.qmd"), text = batch_name)
       )
     } else {
-      # Create a proper list entry for the new navbar item
+      # Find the GitHub link and insert before it
+      navbar_items <- yaml_content$website$navbar$left
+      github_index <- which(sapply(navbar_items, function(x) {
+        if (is.list(x) && !is.null(x$href)) {
+          x$href == "https://github.com/7yl4r/quartobatch"
+        } else if (is.character(x)) {
+          x == "https://github.com/7yl4r/quartobatch"
+        } else {
+          FALSE
+        }
+      }))
+      
       new_nav_item <- list(href = paste0(batch_name, "/listing.qmd"), text = batch_name)
-      yaml_content$website$navbar$left <- c(
-        yaml_content$website$navbar$left,
-        list(new_nav_item)
-      )
+      
+      if (length(github_index) > 0) {
+        # Insert before GitHub link
+        yaml_content$website$navbar$left <- append(navbar_items, list(new_nav_item), after = github_index - 1)
+      } else {
+        # GitHub link not found, append to end
+        yaml_content$website$navbar$left <- c(navbar_items, list(new_nav_item))
+      }
     }
     
     # Write back the YAML
