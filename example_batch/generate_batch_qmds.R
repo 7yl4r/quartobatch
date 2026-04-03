@@ -50,7 +50,7 @@ templ <- readLines(REPORT_TEMPLATE)
 
 for (raw_string in names(TEMPLATE_REPLACEMENTS)){
   templ <- gsub(
-    raw_string, TEMPLATE_REPLACEMENTS[[raw_string]], templ
+    raw_string, TEMPLATE_REPLACEMENTS[[raw_string]], templ, fixed = TRUE
   )
 }
 
